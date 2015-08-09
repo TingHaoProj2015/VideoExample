@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>DrawImage</title>
+</head>
+<body>
+	<img id="img1" src="pic1.jpg" alt="">
+	<canvas id="myCanvas"    width="200", height="300"></canvas>
+	<canvas id="redCanvas"   width="200", height="300"></canvas>
+	<canvas id="greenCanvas" width="200", height="300"></canvas>
+	<canvas id="blueCanvas"  width="200", height="300"></canvas>
+
+	<canvas id="colorCanvas"  width="200", height="300"></canvas>
+
+	<script type="text/javascript">
+		var myCanvas = document.getElementById('myCanvas');
+		var context = myCanvas.getContext('2d');
+		var image = document.getElementById("img1");
+		context.drawImage(image, 10, 10);
+		/*
+		var image = new Image();
+		image.onload = function() {
+		    context.drawImage(image, 69, 50);
+		};
+		image.src = 'pic1.jpg';
+		*/
+		var redCanvas = document.getElementById('redCanvas');
+		var redContext = redCanvas.getContext('2d');
+
+		var greenCanvas = document.getElementById('greenCanvas');
+		var greenContext = greenCanvas.getContext('2d');
+
+		var blueCanvas = document.getElementById('blueCanvas');
+		var blueContext = blueCanvas.getContext('2d');
+
+
+		var imageData = context.getImageData(0,0,200,300);
+		var newImageDataRed = context.getImageData(0,0,200,300);
+		var newImageDataGreen  = context.getImageData(0,0,200,300);
+		var newImageDataBlue  = context.getImageData(0,0,200,300);
+
+		for (var i = 0; i < imageData.data.length; i+=4) {
+			//imageData.data[i]; // red
+			imageData.data[i+1]=0; // green
+			imageData.data[i+2]=0; // blue
+
+			// red
+			newImageDataRed.data[i+1] =0;
+			newImageDataRed.data[i+2] =0;
+
+			// green
+			newImageDataGreen.data[i] =0;
+			newImageDataGreen.data[i+2] =0;
+
+			// blue
+			newImageDataBlue.data[i] =0;
+			newImageDataBlue.data[i+1] =0;
+
+		};
+		redContext.putImageData(newImageDataRed,0,0);
+		greenContext.putImageData(newImageDataGreen,0,0);
+		blueContext.putImageData(newImageDataBlue,0,0);
+	</script>
+</body>
+</html>
